@@ -1,0 +1,21 @@
+excel的处理:
+1、为防止处理中公式出错，另建工作簿，把原始文档先复制过去。注意不要复制为值，这个值是原始值！比如原始值为0.123，如果对值进行了2位小数点的约束，则复制时为012，但是复制值为0.123一定要注意！
+2、处理四个必备字段:
+证件号码，医保金，养老金，失业金
+3、去掉一些汇总统计的行
+==========================================
+UPDATE dbo.TbHrEmp
+SET    FSYJAmount = CAST({{row.失业金}} AS DECIMAL(9,2)),
+       FYLJAmount = CAST({{row.养老金}} AS DECIMAL(9,2)),
+       FYBAmount = CAST({{row.医保金}} AS DECIMAL(9,2))
+WHERE  F身份证='{{row.证件号码}}';
+
+
+=======================
+正确的：
+
+UPDATE dbo.TbHrEmp
+SET    FSYJAmount = {{row.失业金}},
+       FYLJAmount = {{row.养老金}},
+       FYBAmount = {{row.医保金}}
+WHERE  F身份证='{{row.证件号码}}';
